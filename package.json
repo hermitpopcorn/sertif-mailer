@@ -1,0 +1,22 @@
+{
+  "name": "sertif-mailer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node start.js"
+  },
+  "author": "Dani Nugraha",
+  "license": "ISC",
+  "dependencies": {
+    "@pdf-lib/fontkit": "^1.0.0",
+    "dotenv": "^8.2.0",
+    "googleapis": "^59.0.0",
+    "nodemailer": "^6.4.11",
+    "pdf-lib": "^1.10.0",
+    "pdfkit": "^0.11.0",
+    "sharp": "^0.26.0",
+    "text-to-svg": "^3.1.5"
+  }
+}
