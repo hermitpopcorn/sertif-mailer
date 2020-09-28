@@ -11,7 +11,7 @@ oauth2Client.setCredentials({
 });
 
 module.exports = {
-    send: (filename, address, name) => {
+    send: (session, filename, address, name) => {
         return new Promise((resolve, reject) => {
             var accessToken = oauth2Client.getAccessToken()
             accessToken.then(response => {
@@ -34,23 +34,22 @@ module.exports = {
                     },
                     to: {
                         name: name,
-                        address: address
+                        address: "dani.hmng@gmail.com"
                     },
-                    subject: "e-Sertifikat",
+                    subject: "Automated Mail Test (" + address + ")",
                     generateTextFromHTML: true,
-                    html: "Hi <b>"+name+"</b>",
+                    html: new Date().toLocaleString(),
                     attachments: [
                         {
-                            filename: "e-Sertifikat " + name + ".pdf",
-                            path: 'save/'+filename+'.pdf',
-                            contentType: 'application/pdf'
+                            filename: "Sertifikat " + name + '.pdf',
+                            path: 'save/' + session + '/' + filename + '.pdf'
                         }
                     ]
                 };
 
+                resolve(mailOptions); return;
                 smtpTransport.sendMail(mailOptions, (err, response) => {
                     if (err) reject(err);
-                    console.log(response);
                     smtpTransport.close();
                     resolve(response);
                 });

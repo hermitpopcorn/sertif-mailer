@@ -1,5 +1,3 @@
-const fs = require('fs').promises;
-const fsSync = require('fs');
 const ExcelJS = require('exceljs');
 
 function definePDFColumns(sheet) {
@@ -19,7 +17,8 @@ function defineMailedColumns(sheet) {
         { header: 'Timestamp', key: 'timestamp', style: { numFmt: 'yyyy-mm-dd hh:mm:ss' } },
         { header: 'Sesi', key: 'session' },
         { header: 'Nama', key: 'name' },
-        { header: 'Email', key: 'email' }
+        { header: 'Email', key: 'email' },
+        { header: 'Status', key: 'status' }
     ];
 
     return true;

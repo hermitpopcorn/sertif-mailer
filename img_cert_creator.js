@@ -1,5 +1,5 @@
-const fs = require('fs').promises;
-const fsSync = require('fs');
+const fs = require('fs');
+const fsPromises = fs.promises;
 const sharp = require('sharp');
 const TextToSVG = require('text-to-svg');
 const PDFDocument = require('pdfkit');
@@ -25,14 +25,14 @@ module.exports = {
         var filename = ("000"+id).slice(-4) + "-" + email;
 
         // Prep folder(s)
-        if (!fsSync.existsSync('save/tmp')) {
-            fsSync.mkdirSync('save/tmp');
+        if (!fs.existsSync('save/tmp')) {
+            fs.mkdirSync('save/tmp');
         }
-        if (!fsSync.existsSync('save/' + session)) {
-            fsSync.mkdirSync('save/' + session);
+        if (!fs.existsSync('save/' + session)) {
+            fs.mkdirSync('save/' + session);
         }
-        if (!fsSync.existsSync('save/tmp/' + session)) {
-            fsSync.mkdirSync('save/tmp/' + session);
+        if (!fs.existsSync('save/tmp/' + session)) {
+            fs.mkdirSync('save/tmp/' + session);
         }
 
         var _fontSize = fontSize;
@@ -45,7 +45,7 @@ module.exports = {
         // Composite svg
         return new Promise((resolve, reject) => {
             const svg = text2svg.getSVG(name, { x: 0, y: 0, fontSize: _fontSize, anchor: 'top', attributes: { fill: TEXTCOLORS[session] } });
-            fs.writeFile('save/tmp/' + session + '/svg_'+filename+'.svg', svg).then(() => {
+            fsPromises.writeFile('save/tmp/' + session + '/svg_'+filename+'.svg', svg).then(() => {
                 // Convert to png
                 sharp('save/tmp/' + session + '/svg_'+filename+'.svg')
                 .toFormat('png')
@@ -95,7 +95,7 @@ module.exports = {
             });
             doc.image(image, 0, 0, { width: 841.89 });
 
-            doc.pipe(fsSync.createWriteStream('save/' + session + '/' + filename + '.pdf'));
+            doc.pipe(fs.createWriteStream('save/' + session + '/' + filename + '.pdf'));
             doc.end();
 
             fs.unlink('save/' + session + '/' + filename + '.png');
