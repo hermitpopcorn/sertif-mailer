@@ -31,7 +31,7 @@ module.exports = {
                     from: {
                         name: process.env.SENDER_NAME,
                         address: process.env.SENDER_EMAIL
-                    }
+                    },
                     to: {
                         name: name,
                         address: address
