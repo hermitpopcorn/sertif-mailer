@@ -11,11 +11,31 @@ class BaseError extends Error {
 
 class TextTooLongError extends BaseError {
     constructor(data) {
-        super("Text is too long.");
+        let text = "Text is too long.";
+        if (data.text) {
+            text = "Text is too long (" + data.text + ").";
+        }
+        super(text);
+        this.data = data;
+    }
+}
+
+class InsufficientArgumentsError extends BaseError {
+    constructor(data) {
+        super("Insufficient arguments to start the program.");
+        this.data = data;
+    }
+}
+
+class SheetNotFoundError extends BaseError {
+    constructor(data) {
+        super("Specified sheet was not found in the file.");
         this.data = data;
     }
 }
 
 module.exports = {
-  TextTooLongError
+  TextTooLongError,
+  InsufficientArgumentsError,
+  SheetNotFoundError
 };
