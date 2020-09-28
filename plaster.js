@@ -1,7 +1,9 @@
 require('dotenv').config()
 const fs = require('fs').promises;
 const ExcelJS = require('exceljs');
+const moment = require('moment');
 const imageCertCreator = require('./img_cert_creator.js');
+const logger = require('./logger.js');
 const { TextTooLongError, InsufficientArgumentsError, SheetNotFoundError } = require('./errors.js');
 
 if (process.argv.length < 3) { throw new InsufficientArgumentsError(); };
@@ -37,6 +39,7 @@ workbook.xlsx.readFile("materials/" + session + '.xlsx').then((book) => {
         .then((filename) => imageCertCreator.PDFize(session, filename))
         .then((filename) => {
             console.log("Created: " + filename + '.pdf');
+            logger.write('PDF', [moment().utcOffset(0, true).toDate(), session, name, email, filename + '.pdf']);
         });
     });
 });
@@ -44,9 +47,3 @@ workbook.xlsx.readFile("materials/" + session + '.xlsx').then((book) => {
 return;
 
 // TODO: send mail (by reading mail contents from an external file)
-// TODO: write to log
-/*
-console.log(`Mail sent to ${email}.`);
-let ts = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-fs.writeFile('log.txt', `[${ts}] mailer: Sent "${filename}.pdf" to ${email} (${name}).\n`, { flag: 'a' });
-*/

@@ -9,7 +9,6 @@ var fontSize = 90;
 const text2svg = TextToSVG.loadSync(fontPath);
 
 const { TextTooLongError } = require('./errors.js');
-const { resolve } = require('path');
 
 const TEXTCOLORS = {
     d25sesi1: '#3e3350',

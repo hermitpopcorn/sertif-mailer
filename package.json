@@ -14,6 +14,7 @@
     "dotenv": "^8.2.0",
     "exceljs": "^4.1.1",
     "googleapis": "^59.0.0",
+    "moment": "^2.29.0",
     "nodemailer": "^6.4.11",
     "pdf-lib": "^1.10.0",
     "pdfkit": "^0.11.0",
