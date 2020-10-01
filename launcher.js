@@ -3,7 +3,7 @@ const fs = require('fs');
 const fsPromises = fs.promises;
 const ExcelJS = require('exceljs');
 const moment = require('moment');
-const mailer = require('./mailer_test.js');
+const mailer = require('./mailer.js');
 const logger = require('./logger.js');
 const { TextTooLongError, InsufficientArgumentsError, SheetNotFoundError } = require('./errors.js');
 
@@ -14,6 +14,8 @@ process.argv.forEach((element, index) => {
     if (index < 2) { return; }
     sessionList.push(element);
 });
+
+var counter = 0;
 
 // Loop for each argument
 sessionList.forEach(session => {
@@ -47,17 +49,19 @@ sessionList.forEach(session => {
             // Check if cert file exists
             fsPromises.access('save/' + session + '/' + filename + '.pdf', fs.constants.R_OK)
             .then(() => {
-                mailer.send(session, filename, email, name)
-                .then((response) => {
-                    console.log(response); // TODO: delete on production
-                    console.log("Sent: " + filename + '.pdf to ' + email);
-                    logger.write('Mailed', [moment().utcOffset(0, true).toDate(), session, name, email, 'SENT']);
-                })
-                .catch((err) => {
-                    console.log("FAILED SENDING: " + filename + '.pdf to ' + email);
-                    console.log(err);
-                    logger.write('Mailed', [moment().utcOffset(0, true).toDate(), session, name, email, 'SENDING FAILED: ' + err]);
-                });
+                setTimeout(() => {
+                    mailer.send(session, filename, email, name)
+                    .then((response) => {
+                        console.log("Sent: " + filename + '.pdf to ' + email);
+                        logger.write('Mailed', [moment().utcOffset(0, true).toDate(), session, name, email, 'SENT']);
+                    })
+                    .catch((err) => {
+                        console.log("FAILED SENDING: " + filename + '.pdf to ' + email);
+                        console.log(err);
+                        logger.write('Mailed', [moment().utcOffset(0, true).toDate(), session, name, email, 'SENDING FAILED: ' + err]);
+                    });
+                }, counter * 5000);
+                counter += 1;
             })
             .catch(() => {
                 console.log("CERT NOT FOUND: " + filename + '.pdf');
