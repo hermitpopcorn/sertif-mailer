@@ -51,8 +51,7 @@ module.exports = {
                 .toFormat('png')
                 .toFile('save/tmp/' + session + '/text_'+filename+'.png')
                 .then(info => {
-                    fs.unlink('save/tmp/' + session + '/svg_'+filename+'.svg');
-                    resolve()
+                    fs.unlink('save/tmp/' + session + '/svg_'+filename+'.svg', (err) => { resolve(); });
                 })
                 .catch(err => { throw err });
             })
@@ -76,8 +75,7 @@ module.exports = {
                     .png()
                     .toFile('save/' + session + '/'+filename+'.png')
                     .then(info => {
-                        fs.unlink('save/tmp/' + session + '/text_'+filename+'.png');
-                        resolve(filename);
+                        fs.unlink('save/tmp/' + session + '/text_'+filename+'.png', (err) => { resolve(filename); });
                     })
                     .catch(err => { throw err })
                 });
@@ -98,8 +96,7 @@ module.exports = {
             doc.pipe(fs.createWriteStream('save/' + session + '/' + filename + '.pdf'));
             doc.end();
 
-            fs.unlink('save/' + session + '/' + filename + '.png');
-            resolve(filename);
+            fs.unlink('save/' + session + '/' + filename + '.png', (err) => { resolve(filename); });
         });
     }
 };

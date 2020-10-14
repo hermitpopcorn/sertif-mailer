@@ -24,7 +24,7 @@ sessionList.forEach(session => {
     workbook.xlsx.readFile("materials/" + session + '.xlsx').then((book) => {
         var sheet = book.getWorksheet('SERTIFIKAT');
         if (!sheet) { throw new SheetNotFoundError(); }
-        
+
         // Iterate each row
         sheet.eachRow((row, rowNumber) => {
             // Skip first row (head)
@@ -68,5 +68,5 @@ sessionList.forEach(session => {
                 logger.write('Mailed', [moment().utcOffset(0, true).toDate(), session, name, email, 'NOT SENT: CERT NOT FOUND']);
             });
         });
-    });   
+    });
 });
